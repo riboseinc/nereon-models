@@ -10,6 +10,10 @@ configuration formats.
 
 image::images/process-event.png[]
 
+=== Configuration Scheme
+
+image::images/config.png[]
+
 === Example: RVC/RVD
 
 image::images/rvd-event.png[]
