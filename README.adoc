@@ -4,6 +4,10 @@ This is a family of models intended to represent events and configuration
 items. It is used to abstract the common log line and the myriad
 configuration formats.
 
+Configuration model tools in Go are implemented in the library:
+https://github.com/riboseinc/go-multiconfig
+
+
 == Standard Event Models
 
 === Process and Event
@@ -12,13 +16,24 @@ image::images/process-event.png[]
 
 === Configuration Scheme
 
-image::images/config.png[]
+image::images/config-scheme.png[]
 
-=== Example: RVC/RVD
+=== Configuration Values
+
+image::images/config-value.png[]
+
+=== Configuration Value Restrictions
+
+image::images/config-value-restriction.png[]
+
+
+== Examples
+
+=== Event example: RVC/RVD
 
 image::images/rvd-event.png[]
 
-=== Example: Sophos
+=== Event example: Sophos
 
 image::images/sophos-event.png[]
 
