@@ -1,39 +1,40 @@
-= Common Event and Configuration Models
+= Nereon Event and Configuration Models
 
-This is a family of models intended to represent events and configuration
-items. It is used to abstract the common log line and the myriad
+This repository presents the Nereon configuration and Nerelog event models.
+
+It is used to abstract the common `syslog` log line and the myriad
 configuration formats.
 
-Configuration model tools in Go are implemented in the library:
-https://github.com/riboseinc/go-multiconfig
+More information (and implementations of these) on the main
+https://github.com/riboseinc/nereon[Nereon] page.
 
 
 == Standard Event Models
 
 === Process and Event
 
-image::images/process-event.png[]
+image::images/png/Nerelog__ProcessEvent_0.png[]
 
 === Configuration Scheme
 
-image::images/config-scheme.png[]
+image::images/png/Nereon__ConfigScheme_1.png[]
 
 === Configuration Values
 
-image::images/config-value.png[]
+image::images/png/Nereon__ConfigValue_0.png[]
 
 === Configuration Value Restrictions
 
-image::images/config-value-restriction.png[]
+image::images/png/Nereon__ConfigValueRestriction_2.png[]
 
 
 == Examples
 
 === Event example: RVC/RVD
 
-image::images/rvd-event.png[]
+image::images/png/Nerelog__RvdLogEvent_2.png[]
 
 === Event example: Sophos
 
-image::images/sophos-event.png[]
+image::images/png/Nerelog__SophosEvent_1.png[]
 
