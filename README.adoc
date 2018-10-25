@@ -13,28 +13,28 @@ https://github.com/riboseinc/nereon[Nereon] page.
 
 === Process and Event
 
-image::images/png/Nerelog__ProcessEvent_0.png[]
+image::images/Event.png[]
 
 === Configuration Scheme
 
-image::images/png/Nereon__ConfigScheme_1.png[]
+image::images/Config-ConfigurationScheme.png[]
 
 === Configuration Values
 
-image::images/png/Nereon__ConfigValue_0.png[]
+image::images/Config-ConfigurationValues.png[]
 
 === Configuration Value Restrictions
 
-image::images/png/Nereon__ConfigValueRestriction_2.png[]
+image::images/Config-ConfigurationValueRestrictions.png[]
 
 
 == Examples
 
 === Event example: RVC/RVD
 
-image::images/png/Nerelog__RvdLogEvent_2.png[]
+image::images/Event-Example-RVC-RVD.png[]
 
 === Event example: Sophos
 
-image::images/png/Nerelog__SophosEvent_1.png[]
+image::images/Event-Example-Sophos.png[]
 

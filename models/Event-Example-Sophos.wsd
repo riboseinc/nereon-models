@@ -1,0 +1,116 @@
+@startuml Event-Example-Sophos
+/'
+Diagram:        Event-Example-Sophos
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class SophosLogEvent {
+
+}
+
+class SophosOasEvent {
+    +name: String
+    +productVersion: VersionInfo
+    +engineVersion: VersionInfo
+    +threathDataVersion: VersionInfo
+    +threatNumbers: Integer
+    +copyright: String
+    +ideFiles: String[1..*]
+    +startedAt: Iso8601DateTime
+}
+
+class SophosAuEvent {
+    +checkedAt: Iso8601DateTime
+    +needsUpdate: Boolean
+    +downloadedAt: Iso8601DateTime[0..1]
+    +updateStartedAt: Iso8601DateTime[0..1]
+    +updateAt: Iso8601DateTime[0..1]
+    +updateSuccess: Boolean[0.1]
+}
+
+class SophosWebIntelligenceEvent {
+    +datetime: Iso8601DateTime
+    +threatType: SophosWebThreatType
+    +uri: Uri
+}
+
+enum SophosWebThreatType <<enumeration>> {
+    malicious_website
+}
+
+class SophosScanStartEvent {
+    +startAt: Iso8601DateTime
+    +paths: String[1..*]
+    +name: String
+}
+
+class SophosScanDetectEvent {
+    +path: String
+    +deactivatedAt: Iso8601DateTime
+    +actionPerformed: ...
+}
+
+class SophosScanEndEvent {
+    +endAt: Iso8601DateTime
+    +reason: SophosScanEndReason
+    +filesScanned: Integer
+    +threatsFound: Integer
+    +puaFound: Integer
+    +issuesFound: Integer
+    +scanTime: Iso8601DateTime
+}
+
+class SophosScanConfig {
+    +scanArchives: Boolean
+    +autoCleanup: Boolean
+    +scanPua: Boolean
+    +autoCleanPua: Boolean
+    +infectedAction: SophosScanInfectedAction
+    +liveProtection: Boolean
+    +scanControlledApps: Boolean
+}
+
+enum SophosScanInfectedAction <<enumeration>> {
+    report_only
+}
+
+enum SophosScanEndReason <<enumeration>> {
+    aborted
+    completed
+}
+
+
+'******* NOTES ********************************************************
+note top of SophosLogEvent: Inherits from LogEvent
+
+
+'******* CLASS RELATIONS **********************************************
+
+SophosLogEvent <|-- SophosOasEvent
+SophosLogEvent <|-- SophosAuEvent
+SophosLogEvent <|-- SophosWebIntelligenceEvent
+SophosLogEvent <|-- SophosScanStartEvent
+SophosLogEvent <|-- SophosScanDetectEvent
+SophosLogEvent <|-- SophosScanEndEvent
+
+SophosWebIntelligenceEvent <-- SophosWebThreatType
+
+SophosScanStartEvent <-- SophosScanConfig
+
+SophosScanEndEvent <-- SophosScanEndReason
+
+SophosScanConfig <-- SophosScanInfectedAction
+
+@enduml

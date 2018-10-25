@@ -1,0 +1,68 @@
+@startuml Event
+/'
+Diagram:        Event
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class EventContext {
+    +process:ProcessInfo
+    +entries: LogEvent[1..*]
+}
+
+class LogEvent{
+    +id: EntryIdentifier
+    +date: Iso8601DateTime
+    +message: String
+    +signature
+    +type: EventtypeIdentifier
+    +severity
+    +encoding: String
+}
+
+class ProcessInfo{
+    +host: String
+    +id: Integer
+    +name: String
+    +user: String
+    +group: String
+    +parentId: Integer
+    +command: String
+    +stats: ProcessStats
+}
+
+class ProcessStats{
+    +cpuUsage: Float
+    +memUsage: Float
+    +diskIn: Float
+    +diskOut: Float
+    +netIn: Float
+    +netOut: Float
+}
+
+class iso8601DateTime <<dataType>>{
+
+}
+
+'******* NOTES ********************************************************
+note left of iso8601DateTime: iso8601DateTime\nincludes timezone
+
+'******* CLASS RELATIONS **********************************************
+EventContext <-- ProcessInfo
+EventContext <-- LogEvent
+
+ProcessInfo <-- ProcessStats
+
+
+@enduml

@@ -1,0 +1,67 @@
+@startuml Config-ConfigurationValueRestrictions
+/'
+Diagram:        Config-ConfigurationValueRestrictions
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class ConfigValueRestriction {
+    +name: String
+}
+
+class ConfigvaluePrimitiveRestriction {
+    +valueType: ConfigItemvalueType
+    +operation: PrimitiveValueOperation[0..*]
+    +compareReference: ConfigItemValue
+    +required: Boolean
+}
+
+class ConfigValueCompositeRestriction{
+    +children: ConfigValueRestrictions[0..*]
+}
+
+class ConfigValueListRestriction{
+    +TODO
+}
+
+class ConfigValueMapRestriction{
+    +TODO
+}
+
+enum PrimitiveValueOperation <<enumeration>>{
+    greaterThan
+    lessThan
+    equal
+    nonEqual
+}
+
+enum SetValueOperation <<enumeration>>{
+    contains
+    notContains
+}
+
+'******* NOTES ********************************************************
+note "TODO: define\nCompositeValueRestriction )i.e. on\nCompositeValueType values)\nmaxInstances" AS N1
+note bottom of ConfigValueCompositeRestriction: CompositeRestriction if valueType is set to a\nCOnfigValueCompositeType
+
+
+'******* CLASS RELATIONS **********************************************
+ConfigValueRestriction <|-- ConfigvaluePrimitiveRestriction
+ConfigValueRestriction <|-- ConfigValueListRestriction
+ConfigValueRestriction <|-- ConfigValueMapRestriction
+
+ConfigValueListRestriction <|-- ConfigValueCompositeRestriction
+ConfigValueListRestriction <-- PrimitiveValueOperation
+
+@enduml

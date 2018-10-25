@@ -1,0 +1,162 @@
+@startuml Event-Example-RVC-RVD
+/'
+Diagram:        Event-Example-RVC-RVD
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class RvdLogEvent {
+
+}
+
+class RvdConnectionEvent {
+    +connectionId: RvdConnectionid
+    +connectionName: String
+    +status: RvdConnectionStatus
+    +connection: RvdConnection
+    +preExecInfo: RvdPreExecInfo[0..1]
+}
+
+class RvdConnection {
+    +name: String
+    +assignedIp: HostIpAddress
+    +endpoint: String
+    +endpointIp: HostIpAddress
+    +protocol: ProtocolEnum
+    +ipVersion: IpVersion
+    +port: Integer
+    +connectionTime: Iso8601DateTime
+    +connectedBy: String
+    +netIn: Float
+    +netOut: Float
+}
+
+enum RvdConnectionStatus <<enumeration>>{
+    disconnected
+    dosconnecting
+    connecting
+    connected
+    disabled
+}
+
+class RvdPreExecInfo {
+    +command: String
+    +userId: Integer
+    +output: String
+    +returnCode: Integer
+}
+
+class HostIpAddress {
+
+}
+
+class HostIpv4Address {
+    +netmask: Integer = 32
+}
+
+class HostIpv6Address {
+    +netmask: Integer = 128
+}
+
+class IpAddress {
+    +address: String
+    +netmask: Integer
+}
+
+class RvdConnectionConfigAttribute {
+    +name: String
+    +value: String
+}
+
+class RvdConnectionConfigEvent {
+    +action: RvdConnectionConfigAction
+    +attributes: RvdConnectionConfigAttribute[0..*]
+    +connection: RvdConnection
+    +priorAttributes: RvdConnectionConfigAttribute[0..*]
+}
+
+class RvdConfigEvent {
+    +attributes: RvdConfigAttribute[1..*]
+    +priorattributes: RvdConfigAttribute[0..*]
+}
+
+class RvdConfigAttribute {
+    +name: String
+    +value: String
+}
+
+class RvdCommandEvent {
+    +cliCommand: RvdCommand
+    +connectionName: String
+}
+
+enum ProtocolEnum <<enumeration>> {
+    tcp
+    udp
+}
+
+enum IpVersion <<enumeration>> {
+    4
+    6
+}
+
+enum RvdConnectionConfigAction <<enumeration>> {
+    new
+    delete
+    modify
+}
+
+enum RvdCommand <<enumeration>> {
+    show
+    connect
+    disconnect
+    reload
+}
+
+
+'******* NOTES ********************************************************
+note top of RvdConnectionEvent: Connecting, disconnecting,\nstatus
+note top of RvdConnectionConfigEvent: Adding, removing, connections, changing\naconnection config, showing connection\config
+note top of RvdConfigEvent: Changing RVD configuration, showing\nRVD configuration
+note top of RvdCommandEvent: Issuing an RVD command
+
+
+'******* CLASS RELATIONS **********************************************
+RvdLogEvent <|-- RvdConnectionEvent
+RvdLogEvent <|-- RvdConnectionConfigEvent
+RvdLogEvent <|-- RvdConfigEvent
+RvdLogEvent <|-- RvdCommandEvent
+
+RvdConnectionEvent <-- RvdConnectionStatus
+RvdConnectionEvent <-- RvdConnection
+RvdConnectionEvent <-- RvdPreExecInfo
+
+RvdConnection <-- ProtocolEnum
+RvdConnection <-- IpVersion
+RvdConnection <-- HostIpAddress
+
+HostIpAddress <|-- HostIpv4Address
+HostIpAddress <|-- HostIpv6Address
+
+ HostIpv4Address --|> IpAddress
+ HostIpv6Address --|> IpAddress
+
+RvdConnectionConfigEvent <-- RvdConnectionConfigAttribute
+RvdConnectionConfigEvent <-- RvdConnectionConfigAction
+
+RvdConfigEvent <-- RvdConfigAttribute
+
+RvdCommandEvent<-- RvdCommand
+
+@enduml

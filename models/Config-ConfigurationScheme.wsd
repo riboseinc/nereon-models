@@ -1,0 +1,83 @@
+@startuml Config-ConfigurationScheme
+/'
+Diagram:        ConfigurationScheme
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class ConfigScheme {
+    +items: configItemScheme[0..*]
+}
+
+class ConfigItemScheme{
+    +name: String
+    +setters: ConfigSetter[0..*]
+    +example: String
+    +restrictions: ConfigValueRestriction[0..*]
+    +description: BasicText
+    +children: ConfigurationScheme[0..*]
+    +manpage: BasicText[0..1]
+}
+
+class ConfigItemInstance{
+    +name: String
+    +scheme: ConfigItemScheme
+    +value: ConfigItemValue[0..*]
+    +children: ConfigItemInstance[0..*]
+}
+
+class BasicText{
+    +type: TextType
+    +text: String
+}
+
+enum TextType <<enumeration>>{
+    asciidoctor
+    markdown
+    plain
+}
+
+class ConfigSetter{
+
+}
+
+class EnvVarValue{
+    +fullKey: String
+}
+
+class CommandLineArgLong{
+    +fullKey: String
+}
+
+class CommandLineArgShort{
+    +shortKey: String
+}
+
+'******* NOTES ********************************************************
+
+
+'******* CLASS RELATIONS **********************************************
+ConfigScheme <-- ConfigItemScheme
+
+ConfigItemScheme <-left- ConfigItemInstance
+ConfigItemScheme <-- BasicText
+ConfigItemScheme <-- ConfigSetter
+
+BasicText <-- TextType
+
+ConfigSetter <|-- EnvVarValue
+ConfigSetter <|-- CommandLineArgLong
+ConfigSetter <|-- CommandLineArgShort
+
+@enduml

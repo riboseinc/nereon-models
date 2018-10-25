@@ -1,0 +1,104 @@
+@startuml Config-ConfigurationValues
+/'
+Diagram:        Config-ConfigurationValues
+DateCreate:     30/08/2018
+Description:    This repository presents the Nereon configuration and Nerelog event models.
+                It is used to abstract the common syslog log line and the myriad configuration formats.
+                More information (and implementations of these) on the main Nereon page.
+
+Hystory of changes:
+> DD/MM/YYYY
+    -
+    -
+'/
+
+'******* CONFIGURATION ************************************************
+!include style.uml.inc
+
+'******* CLASS DEFINITION *********************************************
+class ConfigItemValue {
+    +type: ConfigItemValueType
+    +value: String
+}
+
+class ConfigItemValueType{
+
+}
+
+class ConfigItemValueCompositeType{
+
+}
+
+class ConfigValuePrimitiveType{
+
+}
+
+class String <<primitiveType>>{
+
+}
+
+class Integer <<primitiveType>>{
+
+}
+
+class Float <<primitiveType>>{
+
+}
+
+class Boolean <<primitiveType>>{
+
+}
+
+class ValueMap {
+    +values: ConfigitemValue[0..*]
+}
+
+class ValueList {
+    +values: ConfigitemValue[0..*]
+}
+
+together {
+    class IpAddress{
+
+    }
+
+    class Host{
+
+    }
+
+    class Uri{
+
+    }
+
+    class FilePath{
+
+    }
+
+    class HostWithPort{
+
+    }
+}
+
+'******* NOTES ********************************************************
+note left of ConfigItemValue: TODO: for multi-level configs, use multi-level\nconfig schemes
+note "Other configuration\nvalues are\ncomposites like\nIpAddress,\nHostWithPort etc" AS N1
+note bottom of ValueMap: unordered
+note bottom of ValueList: ordered
+
+
+'******* CLASS RELATIONS **********************************************
+ConfigItemValue <-- ConfigItemValueType
+ConfigItemValueType <|-- ConfigItemValueCompositeType
+ConfigItemValueType <|-- ConfigValuePrimitiveType
+
+ConfigValuePrimitiveType <|-- String
+ConfigValuePrimitiveType <|-- Integer
+ConfigValuePrimitiveType <|-- Float
+ConfigValuePrimitiveType <|-- Boolean
+
+ConfigItemValueCompositeType <|-- ValueMap
+ConfigItemValueCompositeType <|-- ValueList
+
+Host <|-- HostWithPort
+
+@enduml
